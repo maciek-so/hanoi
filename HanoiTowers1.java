@@ -5,6 +5,7 @@ int tab[][];
 int kije;
 int krazki;
 int pwolne[];
+boolean wygrana = false;
 	
 	Wieze() {
 		kije=3;
@@ -24,14 +25,18 @@ int pwolne[];
 			}
 			System.out.println("");
 		}
-
 			System.out.println("-----------");
 			System.out.println("  1  2  3  ");
-			System.out.println("##"+pwolne[0]+"##"+pwolne[1]+"##"+pwolne[2]+"##");
+			//System.out.println("##"+pwolne[0]+"##"+pwolne[1]+"##"+pwolne[2]+"##");
+			System.out.println("");
 	}
 	
 	String przeloz(int z, int na) {
 		System.out.println("Przenosisz krazek z palika "+z+" na palik "+na+"...");
+		if(z==na) {
+			System.out.println("Cos w mozgu nie styka? Taki ruch niczego nie zmienia!");
+			return "Zablokowano błąd użytkownika!";
+		}
 		if(pwolne[z-1]<=0) {
 			System.out.println("Nie mozna zdjac krazka z pustego palika!");
 			return "Zablokowano błąd użytkownika!";
@@ -52,16 +57,20 @@ int pwolne[];
 		tab[z-1][pwolne[z-1]-1]=0;
 		pwolne[z-1]--;
 		pwolne[na-1]++;
-		if(pwolne[1]==4 || pwolne[1]==4) {
+		if(pwolne[1]==4 || pwolne[2]==4) {
+			System.out.println("");	
+			this.printCurrent();
+			System.out.println("");	
 			System.out.println("##################");
 			System.out.println("#                #");
 			System.out.println("#   YOU WIN :)   #");
 			System.out.println("#                #");
 			System.out.println("##################");
+			wygrana = true;
 			return "Wygrana!!!";
 		}
 		this.printCurrent();
-		System.out.println("Po przelozeniu plansza wyglada jak powyzej.\n");
+		//System.out.println("Po przelozeniu plansza wyglada jak powyzej.\n");
 		return "OK!";
 	} 
 }
@@ -82,9 +91,20 @@ class HanoiTowers1 {
 	w.tab[0][2]=2;
 	w.tab[0][3]=1;
 	w.pwolne[0]=4;
-
-
-	
+	System.out.println("");
+	System.out.println("*****###################______ H A N O I ______###################*****");
+	System.out.println("");
+	System.out.println("Celem gry jest przelozenie stosu krazkow z jednego palika na inny.");
+	System.out.println("Obowiazuja przy tym nastepujace zasady:");
+	System.out.println("- w jednym ruchu mozna przeniesc tylko jeden krazek z samej gory wybranego stosu na gore innego stosu,");
+	System.out.println("- na kazdym ze stosow (na kazdym paliku) ponad krazkiem wiekszym moga znajdowac sie wylacznie krazki mniejsze.");
+	System.out.println("");
+	System.out.println("Obsluga gry:");
+	System.out.println("- postepuj wg instrukcji wyswietlanych na ekranie,");
+	System.out.println("- aby opuscic gre w dowolnym momencie wprowadz 'q'.");
+	System.out.println("");
+	System.out.println("Stan gry (planszy) jest wyswietlany na ekranie przed kazdym ruchem gracza.");
+	System.out.println("");	
 	System.out.println("Aby rozpoczac nacisnij 's'.");
 	st = in.nextLine();
 	ch = st.charAt(0);
@@ -94,10 +114,8 @@ class HanoiTowers1 {
 		int z = 0;
 		int na = 0;
 		boolean inAccepted = false;
-		System.out.println("Wstep... Instrukcja");
-		System.out.println("Aby opuscic gre w dowolnym momencie wprowadz 'q'.");
 		w.printCurrent();
-		while(ch!='q') {		
+		while(w.wygrana == false) {		
 		while(inAccepted == false) {
 			System.out.println("Z ktorego palika chcesz przelozyc krazek?");
 			st = in.nextLine();
@@ -130,7 +148,7 @@ class HanoiTowers1 {
 				z=3;
 				break;
 			default:
-				System.out.println("No wez sie!");
+				System.out.println("No wez sie w garsc!");
 				break;
 		}
 		System.out.println("Na ktory palik chcesz przelozyc krazek?");
